@@ -340,4 +340,62 @@
   
   <class name="std::pair<const edm::Ptr<io_v1::TrackingParticle>, std::vector<edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > >, std::allocator<edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > > > > >" />
 
+
+  <!-- added by Claude: cms_pepr migration from pepr_15_1_0 -->
+  <!-- All template arguments for SimCluster/CaloParticle were namespaced with io_v1 to match pre1 refactor. HGCRecHit, recoCaloCluster, PFTruthParticle remain unqualified. -->
+
+  <!-- SimCluster and CaloParticle Associations -->
+  <class name="edm::Association<std::vector<io_v1::SimCluster> >"/>
+  <class name="edm::Wrapper<edm::Association<std::vector<io_v1::SimCluster> > >"/>
+  <class name="edm::Association<std::vector<io_v1::CaloParticle> >"/>
+  <class name="edm::Wrapper<edm::Association<std::vector<io_v1::CaloParticle> > >"/>
+
+  <!-- SimCluster to SimCluster Associations -->
+  <class name="edm::helpers::KeyVal<edm::RefProd<vector<io_v1::SimCluster> >,edm::RefProd<vector<io_v1::SimCluster> > >"/>
+  <class name="edm::AssociationMap<edm::OneToManyWithQualityGeneric<std::vector<io_v1::SimCluster>,std::vector<io_v1::SimCluster>,float,unsigned int,edm::RefProd<std::vector<io_v1::SimCluster> >,edm::RefProd<std::vector<io_v1::SimCluster> >,edm::Ref<std::vector<io_v1::SimCluster>,io_v1::SimCluster,edm::refhelper::FindUsingAdvance<std::vector<io_v1::SimCluster>,io_v1::SimCluster> >,edm::Ref<std::vector<io_v1::SimCluster>,io_v1::SimCluster,edm::refhelper::FindUsingAdvance<std::vector<io_v1::SimCluster>,io_v1::SimCluster> > > >">
+    <field name="transientMap_" transient="true"/>
+  </class>
+  <class name="edm::Wrapper<edm::AssociationMap<edm::OneToManyWithQualityGeneric<std::vector<io_v1::SimCluster>,std::vector<io_v1::SimCluster>,float,unsigned int,edm::RefProd<std::vector<io_v1::SimCluster> >,edm::RefProd<std::vector<io_v1::SimCluster> >,edm::Ref<std::vector<io_v1::SimCluster>,io_v1::SimCluster,edm::refhelper::FindUsingAdvance<std::vector<io_v1::SimCluster>,io_v1::SimCluster> >,edm::Ref<std::vector<io_v1::SimCluster>,io_v1::SimCluster,edm::refhelper::FindUsingAdvance<std::vector<io_v1::SimCluster>,io_v1::SimCluster> > > > >"/>
+
+  <!-- Standard collections -->
+  <class name="std::unordered_map<int,float,std::hash<int>,std::equal_to<int> >"/>
+  <class name="edm::Wrapper<std::unordered_map<int,float,std::hash<int>,std::equal_to<int> > >"/>
+
+  <!-- HGCRecHit to SimCluster Associations -->
+  <class name="edm::AssociationMap<edm::OneToManyWithQualityGeneric<std::vector<HGCRecHit>,std::vector<io_v1::SimCluster>,float,unsigned int,edm::RefProd<std::vector<HGCRecHit> >,edm::RefProd<std::vector<io_v1::SimCluster> >,edm::Ref<std::vector<HGCRecHit>,HGCRecHit,edm::refhelper::FindUsingAdvance<std::vector<HGCRecHit>,HGCRecHit> >,edm::Ref<std::vector<io_v1::SimCluster>,io_v1::SimCluster,edm::refhelper::FindUsingAdvance<std::vector<io_v1::SimCluster>,io_v1::SimCluster> > > >">
+    <field name="transientMap_" transient="true"/>
+  </class>
+  <class name="edm::Wrapper<edm::AssociationMap<edm::OneToManyWithQualityGeneric<std::vector<HGCRecHit>,std::vector<io_v1::SimCluster>,float,unsigned int,edm::RefProd<std::vector<HGCRecHit> >,edm::RefProd<std::vector<io_v1::SimCluster> >,edm::Ref<std::vector<HGCRecHit>,HGCRecHit,edm::refhelper::FindUsingAdvance<std::vector<HGCRecHit>,HGCRecHit> >,edm::Ref<std::vector<io_v1::SimCluster>,io_v1::SimCluster,edm::refhelper::FindUsingAdvance<std::vector<io_v1::SimCluster>,io_v1::SimCluster> > > > >"/>
+
+  <!-- HGCRecHit Refs and KeyVals -->
+  <class name="edm::RefProd<std::vector<HGCRecHit> >"/>
+  <class name="edm::helpers::KeyVal<edm::RefProd<std::vector<HGCRecHit> >,edm::RefProd<std::vector<io_v1::SimCluster> > >"/>
+  <class name="std::vector<std::pair<edm::Ref<std::vector<io_v1::SimCluster>,io_v1::SimCluster,edm::refhelper::FindUsingAdvance<std::vector<io_v1::SimCluster>,io_v1::SimCluster> >,float> >"/>
+  <class name="std::pair<edm::Ref<std::vector<io_v1::SimCluster>,io_v1::SimCluster,edm::refhelper::FindUsingAdvance<std::vector<io_v1::SimCluster>,io_v1::SimCluster> >,float>"/>
+  <class name="edm::Ref<std::vector<HGCRecHit>,HGCRecHit,edm::refhelper::FindUsingAdvance<std::vector<HGCRecHit>,HGCRecHit> >"/>
+
+  <!-- Helpers for HGCRecHit -> vector<pair<SimClusterRef,float>> -->
+  <class name="edm::helpers::KeyVal<edm::Ref<std::vector<HGCRecHit>,HGCRecHit,edm::refhelper::FindUsingAdvance<std::vector<HGCRecHit>,HGCRecHit> >, std::vector<std::pair<edm::Ref<std::vector<io_v1::SimCluster>,io_v1::SimCluster,edm::refhelper::FindUsingAdvance<std::vector<io_v1::SimCluster>,io_v1::SimCluster> >, float> > >"/>
+
+  <!-- HGCRecHit to CaloCluster with quality value -->
+  <class name="edm::AssociationMap<edm::OneToManyWithQualityGeneric<std::vector<HGCRecHit>,std::vector<reco::CaloCluster>,float,unsigned int,edm::RefProd<std::vector<HGCRecHit> >,edm::RefProd<std::vector<reco::CaloCluster> >,edm::Ref<std::vector<HGCRecHit>,HGCRecHit,edm::refhelper::FindUsingAdvance<std::vector<HGCRecHit>,HGCRecHit> >,edm::Ref<std::vector<reco::CaloCluster>,reco::CaloCluster,edm::refhelper::FindUsingAdvance<std::vector<reco::CaloCluster>,reco::CaloCluster> > > >">
+    <field name="transientMap_" transient="true" />
+  </class>
+  <class name="edm::Wrapper<edm::AssociationMap<edm::OneToManyWithQualityGeneric<std::vector<HGCRecHit>,std::vector<reco::CaloCluster>,float,unsigned int,edm::RefProd<std::vector<HGCRecHit> >,edm::RefProd<std::vector<reco::CaloCluster> >,edm::Ref<std::vector<HGCRecHit>,HGCRecHit,edm::refhelper::FindUsingAdvance<std::vector<HGCRecHit>,HGCRecHit> >,edm::Ref<std::vector<reco::CaloCluster>,reco::CaloCluster,edm::refhelper::FindUsingAdvance<std::vector<reco::CaloCluster>,reco::CaloCluster> > > > >"/>
+
+  <!-- Basic Association class for CaloCluster -->
+  <class name="edm::Association<std::vector<reco::CaloCluster> >"/>
+  <class name="edm::Wrapper<edm::Association<std::vector<reco::CaloCluster> > >"/>
+
+  <!-- Components needed for CaloCluster associations -->
+  <class name="std::pair<edm::Ref<std::vector<reco::CaloCluster>,reco::CaloCluster,edm::refhelper::FindUsingAdvance<std::vector<reco::CaloCluster>,reco::CaloCluster> >, float>"/>
+  <class name="std::vector<std::pair<edm::Ref<std::vector<reco::CaloCluster>,reco::CaloCluster,edm::refhelper::FindUsingAdvance<std::vector<reco::CaloCluster>,reco::CaloCluster> >, float> >"/>
+  <class name="edm::helpers::KeyVal<edm::Ref<std::vector<HGCRecHit>,HGCRecHit,edm::refhelper::FindUsingAdvance<std::vector<HGCRecHit>,HGCRecHit> >, std::vector<std::pair<edm::Ref<std::vector<reco::CaloCluster>,reco::CaloCluster,edm::refhelper::FindUsingAdvance<std::vector<reco::CaloCluster>,reco::CaloCluster> >, float> > >"/>
+  <class name="edm::helpers::KeyVal<edm::RefProd<std::vector<HGCRecHit> >,edm::RefProd<std::vector<reco::CaloCluster> > >"/>
+
+  <!-- PFTruth definitions -->
+  <class name="edm::Association<std::vector<PFTruthParticle> >"/>
+  <class name="edm::Wrapper<edm::Association<std::vector<PFTruthParticle> > >"/>
+  <!-- end added by Claude -->
+
 </lcgdict>

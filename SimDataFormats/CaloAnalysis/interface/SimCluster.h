@@ -11,23 +11,30 @@
 #include "SimDataFormats/EncodedEventId/interface/EncodedEventId.h"
 #include "SimDataFormats/Track/interface/SimTrack.h"
 
+// added by Claude: cms_pepr migration from pepr_15_1_0
+#include "DataFormats/GeometryVector/interface/GlobalPoint.h"
+// end added by Claude
+
 #include <vector>
 #include <unordered_map>
 #include <functional>
 #include <ranges>
+// added by Claude: cms_pepr migration from pepr_15_1_0
+#include <algorithm>
+// end added by Claude
 
 namespace io_v1 {
   /** @brief Monte Carlo truth information used for calorimeter reco validation
- *
- * Object with copies to the original SimTrack, and eventual reference to GenParticle
- * Simulated calorimeter hits are saved as a list of pairs (DetId, fraction of reco hit energy contributed by the SimTrack)
- * ('absolute' hit energy is usually not saved)
- *
- * @author original author unknown, re-engineering and slimming by Subir Sarkar
- * (subir.sarkar@cern.ch), some tweaking and documentation by Mark Grimes
- * (mark.grimes@bristol.ac.uk).
- * @date original date unknown, re-engineering Jan-May 2013
- */
+*
+* Object with copies to the original SimTrack, and eventual reference to GenParticle
+* Simulated calorimeter hits are saved as a list of pairs (DetId, fraction of reco hit energy contributed by the SimTrack)
+* ('absolute' hit energy is usually not saved)
+*
+* @author original author unknown, re-engineering and slimming by Subir Sarkar
+* (subir.sarkar@cern.ch), some tweaking and documentation by Mark Grimes
+* (mark.grimes@bristol.ac.uk).
+* @date original date unknown, re-engineering Jan-May 2013
+*/
   class SimCluster {
     friend std::ostream &operator<<(std::ostream &s, SimCluster const &tp);
 
@@ -51,11 +58,19 @@ namespace io_v1 {
       requires std::ranges::input_range<R> && std::same_as<std::ranges::range_value_t<R>, SimCluster>
     static SimCluster mergeHitsFromCollection(R const &);
 
+    // added by Claude: cms_pepr migration from pepr_15_1_0
+    SimCluster(const std::vector<SimTrack> &simtrks, int pdgId = 0);  // for merged clusters
+    // end added by Claude
+
     /** @brief PDG ID.
    *
    * Returns the PDG ID of the first associated gen particle. If there are no
    * gen particles associated then it returns type() from the first SimTrack. */
     int pdgId() const {
+      // added by Claude: cms_pepr migration from pepr_15_1_0
+      if (pdgId_ != 0)
+        return pdgId_;
+      // end added by Claude
       if (genParticles_.empty())
         return g4Tracks_[0].type();
       else
@@ -72,7 +87,11 @@ namespace io_v1 {
 
     // Setters for G4 and reco::GenParticle
     void addGenParticle(const reco::GenParticleRef &ref) { genParticles_.push_back(ref); }
-    void addG4Track(const SimTrack &t) { g4Tracks_.push_back(t); }
+    // added by Claude: cms_pepr migration from pepr_15_1_0
+    // (was inline: { g4Tracks_.push_back(t); } -- moved to .cc to also update pdgId_)
+    void addG4Track(const SimTrack &t);
+    void merge();
+    // end added by Claude
     /// iterators
     genp_iterator genParticle_begin() const { return genParticles_.begin(); }
     genp_iterator genParticle_end() const { return genParticles_.end(); }
@@ -180,6 +199,20 @@ namespace io_v1 {
       fractions_.emplace_back(fraction);
     }
 
+    // added by Claude: cms_pepr migration from pepr_15_1_0
+    /** @brief Same as addRecHitAndFraction but when the hit is already registered, the fraction
+     *  is increased. */
+    void addDuplicateRecHitAndFraction(uint32_t hit, float fraction) {
+      std::vector<uint32_t>::iterator it = std::find(hits_.begin(), hits_.end(), hit);
+      if (it == hits_.end()) {
+        addRecHitAndFraction(hit, fraction);
+      } else {
+        int i = std::distance(hits_.begin(), it);
+        fractions_[i] += fraction;
+      }
+    }
+    // end added by Claude
+
     /** @brief add rechit energy */
     void addHitEnergy(float energy) { energies_.emplace_back(energy); }
 
@@ -235,6 +268,28 @@ namespace io_v1 {
       ++nsimhits_;
     }
 
+    // added by Claude: cms_pepr migration from pepr_15_1_0
+    void setImpactPoint(const math::XYZTLorentzVectorF &point) { impactPoint_ = point; }
+    const math::XYZTLorentzVectorF &impactPoint() const { return impactPoint_; }
+
+    void setImpactMomentum(const math::XYZTLorentzVectorF &mom) { impactMomentum_ = mom; }
+    const math::XYZTLorentzVectorF &impactMomentum() const { return impactMomentum_; }
+
+    math::XYZTLorentzVectorF impactMomentumMuOnly() const;
+    math::XYZTLorentzVectorF impactMomentumNoMu() const;
+
+    const std::vector<math::XYZTLorentzVectorF> &subImpactPoints() const { return subImpacts_; }
+    void setSubImpactPoints(const std::vector<math::XYZTLorentzVectorF> &p) { subImpacts_ = p; }
+
+    void setPdgId(int id) { pdgId_ = id; }
+
+    bool hasHGCALHit() const;
+    bool allHitsHGCAL() const;
+
+    SimCluster operator+(const SimCluster &);
+    SimCluster &operator+=(const SimCluster &);
+    // end added by Claude
+
   protected:
     uint64_t nsimhits_{0};
     EncodedEventId event_;
@@ -250,6 +305,13 @@ namespace io_v1 {
     std::vector<SimTrack> g4Tracks_;  ///< Copies of SimTrack used to build SimCluster (usually there is only one)
     /// Ref to GenParticle (in case the SimCluster is created from the entire GenParticle). Usually either empty or length 1
     reco::GenParticleRefVector genParticles_;
+
+    // added by Claude: cms_pepr migration from pepr_15_1_0
+    int pdgId_{0};
+    math::XYZTLorentzVectorF impactPoint_;
+    math::XYZTLorentzVectorF impactMomentum_;
+    std::vector<math::XYZTLorentzVectorF> subImpacts_;
+    // end added by Claude
   };
 
   template <typename R>

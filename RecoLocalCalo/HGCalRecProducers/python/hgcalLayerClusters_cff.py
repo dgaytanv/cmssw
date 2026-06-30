@@ -66,6 +66,25 @@ hgcalLayerClustersHSci = hgcalLayerClusters_.clone(
     )
 )
 
+#added
+hgcalLayerClusters = hgcalLayerClusters_.clone(
+    timeOffset = hgceeDigitizer.tofDelay,
+    plugin = dict(
+        dEdXweights = HGCalRecHit.layerWeights.value(),
+        #With the introduction of 7 regional factors (6 for silicon plus 1 for scintillator),
+        #we extend fcPerMip (along with noises below) so that it is guaranteed that they have 6 entries.
+        fcPerMip = HGCalUncalibRecHit.HGCEEConfig.fCPerMIP.value() + HGCalUncalibRecHit.HGCHEFConfig.fCPerMIP.value(),
+        thicknessCorrection = HGCalRecHit.thicknessCorrection.value(),
+        sciThicknessCorrection = HGCalRecHit.sciThicknessCorrection.value(),
+        deltasi_index_regemfac = HGCalRecHit.deltasi_index_regemfac.value(),
+        fcPerEle = fC_per_ele,
+        #Extending noises as fcPerMip, see comment above.
+        noises = HGCAL_noises.values.value() + HGCAL_noises.values.value(),
+        noiseMip = hgchebackDigitizer.digiCfg.noise.value()
+    )
+)
+#added
+
 hgcalLayerClustersHFNose = hgcalLayerClusters_.clone(
     detector = 'HFNose',
     recHits = "HGCalRecHit:HGCHFNoseRecHits",
@@ -85,7 +104,3 @@ hgcalLayerClustersHFNose = hgcalLayerClusters_.clone(
 hgcalMergeLayerClusters = hgcalMergeLayerClusters_.clone(
 )
 
-layerClusters = cms.VInputTag('hgcalLayerClustersEE', 'hgcalLayerClustersHSi', 'hgcalLayerClustersHSci', 'barrelLayerClustersEB', 'barrelLayerClustersHB')
-time_layerClusters = cms.VInputTag('hgcalLayerClustersEE:timeLayerCluster', 'hgcalLayerClustersHSi:timeLayerCluster', 'hgcalLayerClustersHSci:timeLayerCluster', 'barrelLayerClustersEB:timeLayerCluster', 'barrelLayerClustersHB:timeLayerCluster')
-from Configuration.ProcessModifiers.ticl_barrel_cff import ticl_barrel
-ticl_barrel.toModify(hgcalMergeLayerClusters, layerClusters = layerClusters, time_layerclusters = time_layerClusters)

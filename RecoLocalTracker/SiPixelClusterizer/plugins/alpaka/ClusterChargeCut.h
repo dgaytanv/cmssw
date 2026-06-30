@@ -181,7 +181,7 @@ namespace pixelClustering {
         ALPAKA_ASSERT_ACC(nclus >= newclusId[nclus - 1]);
 
         clus_view[thisModuleId].clusInModule() = newclusId[nclus - 1];
-
+      
         // reassign id
         for (auto i : cms::alpakatools::independent_group_elements(acc, firstPixel, numElements)) {
           if (digi_view[i].moduleId() == invalidModuleId)

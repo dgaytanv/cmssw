@@ -35,3 +35,19 @@
 #include "DataFormats/Common/interface/OneToManyWithQualityGeneric.h"
 #include "DataFormats/Common/interface/AssociationMapHelpers.h"
 #include "SimDataFormats/CaloAnalysis/interface/SimCluster.h"
+
+// added by Claude: cms_pepr migration from pepr_15_1_0
+#include "DataFormats/HGCRecHit/interface/HGCRecHit.h"
+#include "DataFormats/HGCRecHit/interface/HGCRecHitCollections.h"
+#include "SimDataFormats/PFAnalysis/interface/PFTruthParticle.h"
+
+#include "DataFormats/Common/interface/Association.h"
+#include "DataFormats/Common/interface/OneToManyWithQuality.h"
+#include "DataFormats/Common/interface/View.h"
+#include "DataFormats/Common/interface/Handle.h"
+#include "DataFormats/Common/interface/RefToBase.h"
+
+#include <atomic>
+#include <functional>
+#include <utility>
+// end added by Claude

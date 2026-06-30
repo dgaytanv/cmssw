@@ -20,9 +20,14 @@
   <class name="MtdCaloParticleRefProd"/>
   <class name="MtdCaloParticleContainer"/>
 
-  <class name="io_v1::SimCluster"  ClassVersion="3">
-   <version ClassVersion="3" checksum="2253109319"/>
+  <!-- added by Claude: cms_pepr migration from pepr_15_1_0 -->
+  <!-- ClassVersion bumped 3 -> 4 because pepr added persistent members
+       (pdgId_, impactPoint_, impactMomentum_, subImpacts_). Checksum dropped
+       so ROOT regenerates it at build time. -->
+  <class name="io_v1::SimCluster"  ClassVersion="4">
+   <version ClassVersion="4" checksum="147699283"/>
   </class>
+  <!-- end added by Claude -->
   <class name="SimClusterCollection"/>
   <class name="edm::Wrapper<SimClusterCollection>"/>
   <class name="SimClusterRef"/>
@@ -33,7 +38,8 @@
 
   <class name="std::pair<edm::RefProd<std::vector<io_v1::SimCluster> >, edm::RefProd<std::vector<io_v1::CaloParticle> > >"/>
 
-  <class name="io_v1::MtdSimCluster" ClassVersion="3">
+  <class name="io_v1::MtdSimCluster" ClassVersion="4">
+   <version ClassVersion="4" checksum="2899110026"/>
     <version ClassVersion="3" checksum="3934609990"/>
   </class>
   <class name="MtdSimClusterCollection"/>
@@ -44,7 +50,8 @@
   <class name="MtdSimClusterContainer"/>
 
 
-  <class name="MtdSimLayerCluster" ClassVersion="3">
+  <class name="MtdSimLayerCluster" ClassVersion="4">
+   <version ClassVersion="4" checksum="106156816"/>
     <version ClassVersion="3" checksum="3418591020"/>
   </class>
   <class name="MtdSimLayerClusterCollection"/>
@@ -54,7 +61,8 @@
   <class name="MtdSimLayerClusterRefProd"/>
   <class name="MtdSimLayerClusterContainer"/>
 
-  <class name="MtdSimTrackster" ClassVersion="3">
+  <class name="MtdSimTrackster" ClassVersion="4">
+   <version ClassVersion="4" checksum="181105330"/>
     <version ClassVersion="3" checksum="1528473350"/>
   </class>
   <class name="MtdSimTracksterCollection"/>
