@@ -20,9 +20,13 @@
   <class name="MtdCaloParticleRefProd"/>
   <class name="MtdCaloParticleContainer"/>
 
-  <class name="io_v1::SimCluster"  ClassVersion="3">
-   <version ClassVersion="3" checksum="2253109319"/>
+  <!-- added by Claude: cms_pepr migration from pepr_15_1_0 -->
+  <!-- ClassVersion bumped 3 -> 4 because pepr added persistent members
+       (pdgId_, impactPoint_, impactMomentum_, subImpacts_). Checksum dropped
+       so ROOT regenerates it at build time. -->
+  <class name="io_v1::SimCluster"  ClassVersion="4">
   </class>
+  <!-- end added by Claude -->
   <class name="SimClusterCollection"/>
   <class name="edm::Wrapper<SimClusterCollection>"/>
   <class name="SimClusterRef"/>
