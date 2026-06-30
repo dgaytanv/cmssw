@@ -23,11 +23,12 @@ public:
 
   ~TrackPositionAtHGCALTableProducer() override {}
 
-  void beginRun(const edm::Run&, const edm::EventSetup& iSetup) override {
-    trackprop_.setupRun(iSetup);
-  }
 
   void produce(edm::Event& iEvent, const edm::EventSetup& iSetup) override {
+    // added by Claude: cms_pepr migration from pepr_15_1_0
+    // moved from beginRun (not overridable on stream::EDProducer in pre1)
+    trackprop_.setupRun(iSetup);
+    // end added by Claude
     edm::Handle<reco::TrackCollection> objs;
     iEvent.getByToken(src_, objs);
 

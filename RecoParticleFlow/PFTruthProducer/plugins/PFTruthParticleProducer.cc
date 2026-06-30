@@ -80,19 +80,16 @@
  *
  */
 
-typedef edm::AssociationMap<edm::OneToMany<
-    TrackingParticleCollection, SimClusterCollection>> TrackingParticleToSimCluster;
 
 class PFTruthParticleProducer : public edm::stream::EDProducer<> {
 public:
   explicit PFTruthParticleProducer(const edm::ParameterSet &);
   ~PFTruthParticleProducer() override;
 
-  void beginRun(const edm::Run&, const edm::EventSetup& iSetup) override {
-    trackprop_.setupRun(iSetup);
-    auto& geom = iSetup.getData(caloGeoToken_);
-    hgcrechittools_.setGeometry(geom);//OPT
-  }
+  // added by Claude: cms_pepr migration from pepr_15_1_0
+  // beginRun is not overridable on stream::EDProducer<> in pre1; geometry and
+  // track-propagator setup moved into produce() below.
+  // end added by Claude
 
   void produce(edm::Event& iEvent, const edm::EventSetup& iSetup) override;
 
@@ -134,7 +131,11 @@ PFTruthParticleProducer::PFTruthParticleProducer(const edm::ParameterSet &pset)
       recHitToSCToken_(consumes<edm::Association<SimClusterCollection> >(pset.getParameter<edm::InputTag>("rechitToSimClusAssoc"))),
       tpToTrackToken_(consumes<reco::SimToRecoCollection>(pset.getParameter<edm::InputTag>("trackingPartToTrackAssoc"))),
       trackprop_(consumesCollector()),
-      caloGeoToken_(esConsumes<edm::Transition::BeginRun>())
+      // added by Claude: cms_pepr migration from pepr_15_1_0
+      // Transition changed from BeginRun to Event since stream::EDProducer<>
+      // in pre1 does not expose beginRun() for override.
+      caloGeoToken_(esConsumes<CaloGeometry, CaloGeometryRecord>())
+      // end added by Claude
 {
   produces<PFTruthParticleCollection>();
   produces<edm::Association<PFTruthParticleCollection>>("trackingPartToPFTruth");
@@ -243,7 +244,12 @@ std::vector<SimClusterRefVector> PFTruthParticleProducer::splitCPToTP(const SimC
 // ------------ method called to produce the data  ------------
 void PFTruthParticleProducer::produce(edm::Event &iEvent, const edm::EventSetup &iSetup) {
 
-
+  // added by Claude: cms_pepr migration from pepr_15_1_0
+  // moved from beginRun (not overridable on stream::EDProducer in pre1)
+  trackprop_.setupRun(iSetup);
+  auto const& geom = iSetup.getData(caloGeoToken_);
+  hgcrechittools_.setGeometry(geom);
+  // end added by Claude
 
  //   throw std::runtime_error("PFTruthParticleProducer: currently not working yet, but skeleton is there");
 
@@ -513,4 +519,3 @@ void PFTruthParticleProducer::produce(edm::Event &iEvent, const edm::EventSetup 
 
 // define this as a plug-in
 DEFINE_FWK_MODULE(PFTruthParticleProducer);
-

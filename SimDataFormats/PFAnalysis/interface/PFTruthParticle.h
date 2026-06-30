@@ -14,8 +14,6 @@
 //
 // Forward declarations
 //
-class TrackingVertex;
-class SimTrack;
 class EncodedEventId;
 
 class PFTruthParticle {

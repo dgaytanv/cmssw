@@ -1056,7 +1056,6 @@ class simmerger : public edm::stream::EDProducer<> {
             const edm::Association<SimClusterCollection>& simTrackToSimCluster);
     private:
         virtual void produce(edm::Event&, const edm::EventSetup&) override;
-        void beginRun(const edm::Run&, const edm::EventSetup&) override {}
         hgcal::RecHitTools hgcalRecHitToolInstance_ ;
         edm::EDGetTokenT<edm::View<PCaloHit>> hgcalEEHitsToken_;
         edm::EDGetTokenT<edm::View<PCaloHit>> hgcalHEfrontHitsToken_;
@@ -1167,7 +1166,6 @@ class simmerger : public edm::stream::EDProducer<> {
             const edm::Association<SimClusterCollection>& simTrackToSimCluster);
     private:
         virtual void produce(edm::Event&, const edm::EventSetup&) override;
-        void beginRun(const edm::Run&, const edm::EventSetup&) override {}
         hgcal::RecHitTools hgcalRecHitToolInstance_ ;
         edm::EDGetTokenT<edm::View<PCaloHit>> hgcalEEHitsToken_;
         edm::EDGetTokenT<edm::View<PCaloHit>> hgcalHEfrontHitsToken_;

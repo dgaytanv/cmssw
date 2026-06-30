@@ -57,10 +57,6 @@ class SimClusterMerger : public edm::stream::EDProducer<> {
         explicit SimClusterMerger(const edm::ParameterSet&);
         ~SimClusterMerger() {}
 
-        void beginRun(const edm::Run&, const edm::EventSetup& iSetup) override {
-          auto& geom = iSetup.getData(caloGeoToken_);
-          hgcalRecHitToolInstance_.setGeometry(geom);//OPT
-        }
 
 
     private:
@@ -84,7 +80,11 @@ SimClusterMerger::SimClusterMerger(const edm::ParameterSet &pset) :
         svCollectionToken_(consumes<std::vector<SimVertex> >(pset.getParameter<edm::InputTag>("simVertices"))),
         stCollectionToken_(consumes<std::vector<SimTrack> >(pset.getParameter<edm::InputTag>("simTracks"))),
         caloRecHitToken_(consumes<HGCRecHitCollection>(pset.getParameter<edm::InputTag>("caloRecHits"))),
-        caloGeoToken_(esConsumes<edm::Transition::BeginRun>())
+        // added by Claude: cms_pepr migration from pepr_15_1_0
+        // Transition changed from BeginRun to Event since stream::EDProducer<> in pre1
+        // does not expose beginRun() for override.
+        caloGeoToken_(esConsumes<CaloGeometry, CaloGeometryRecord>())
+        // end added by Claude
     {
     produces<SimClusterCollection>();
     produces<edm::Association<SimClusterCollection>>();
@@ -98,6 +98,12 @@ SimClusterMerger::SimClusterMerger(const edm::ParameterSet &pset) :
     }
 
 void SimClusterMerger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
+
+    // added by Claude: cms_pepr migration from pepr_15_1_0
+    // moved from beginRun (not overridable on stream::EDProducer in pre1)
+    auto const& geom = iSetup.getData(caloGeoToken_);
+    hgcalRecHitToolInstance_.setGeometry(geom);
+    // end added by Claude
 
     /*
      *

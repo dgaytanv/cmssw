@@ -19,28 +19,38 @@ class HGCalHitPositionTableProducer : public HitPositionTableProducer<edm::View<
 public:
   HGCalHitPositionTableProducer(edm::ParameterSet const& params)
       : HitPositionTableProducer<edm::View<T>>(params),
-        caloGeoToken_(edm::stream::EDProducer<>::esConsumes<edm::Transition::BeginRun>()) { }
+        // added by Claude: cms_pepr migration from pepr_15_1_0
+        // Transition changed from BeginRun to Event since stream::EDProducer<>
+        // in pre1 does not expose beginRun() for override. Geometry is now
+        // refreshed per-event in produce() below.
+        caloGeoToken_(edm::stream::EDProducer<>::template esConsumes<CaloGeometry, CaloGeometryRecord>()) { }
+        // end added by Claude
 
   ~HGCalHitPositionTableProducer() override {}
 
-  GlobalPoint positionFromHit(const CaloRecHit& hit) { 
+  GlobalPoint positionFromHit(const CaloRecHit& hit) {
     DetId detId = hit.detid();
-    return positionFromDetId(detId); 
+    return positionFromDetId(detId);
   }
 
-  GlobalPoint positionFromHit(const PCaloHit& hit) { 
+  GlobalPoint positionFromHit(const PCaloHit& hit) {
     DetId detId = hit.id();
-    return positionFromDetId(detId); 
+    return positionFromDetId(detId);
   }
 
   float radiusFromHit(const CaloRecHit& hit) { return radiusFromDetId(hit.detid()); }
 
   float radiusFromHit(const PCaloHit& hit) { return radiusFromDetId(hit.id()); }
 
-  void beginRun(const edm::Run&, const edm::EventSetup& iSetup) override {
-    auto& geom = iSetup.getData(caloGeoToken_);
+  // added by Claude: cms_pepr migration from pepr_15_1_0
+  // beginRun is not overridable on stream::EDProducer<> in pre1. Geometry caching
+  // moved into produce(), which then delegates to the base class implementation.
+  void produce(edm::Event& iEvent, const edm::EventSetup& iSetup) override {
+    auto const& geom = iSetup.getData(caloGeoToken_);
     rhtools_.setGeometry(geom);
+    HitPositionTableProducer<edm::View<T>>::produce(iEvent, iSetup);
   }
+  // end added by Claude
 
   GlobalPoint positionFromDetId(DetId id) {
     DetId::Detector det = id.det();

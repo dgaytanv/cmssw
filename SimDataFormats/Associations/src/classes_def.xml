@@ -173,38 +173,38 @@
   <class name="edm::helpers::KeyVal<edm::RefProd<vector<io_v1::CaloParticle> >,edm::RefProd<vector<reco::io_v1::PFCluster> > >" />
   <class name="edm::helpers::KeyVal<edm::RefProd<vector<reco::io_v1::PFCluster> >,edm::RefProd<vector<io_v1::CaloParticle> > >" />
 
-  <class name="edm::AssociationMap<edm::OneToManyWithQualityGeneric
+  <class name="edm::AssociationMap<edm::OneToManyWithQualityGeneric<
                std::vector<io_v1::SimCluster>, std::vector<reco::io_v1::PFCluster>, std::pair<float,float>, unsigned int,
                edm ::RefProd<std::vector<io_v1::SimCluster>>, edm::RefProd<std::vector<reco::io_v1::PFCluster>>,
                edm::Ref<std::vector<io_v1::SimCluster>>, edm::Ref<std::vector<reco::io_v1::PFCluster>>
-			  >>">
-		<field name="transientMap_" transient="true"/>
+			   >>">
+		 <field name="transientMap_" transient="true"/>
   </class>
   
-  <class name="edm::AssociationMap<edm::OneToManyWithQualityGeneric
+  <class name="edm::AssociationMap<edm::OneToManyWithQualityGeneric<
                std::vector<reco::io_v1::PFCluster>, std::vector<io_v1::SimCluster>, float, unsigned int,
                edm::RefProd<std::vector<reco::io_v1::PFCluster>>, edm::RefProd<std::vector<io_v1::SimCluster>>,
                edm::Ref<std::vector<reco::io_v1::PFCluster>>, edm::Ref<std::vector<io_v1::SimCluster>>
-			  >>" >
-		<field name="transientMap_" transient="true"/>
+			   >>" >
+		 <field name="transientMap_" transient="true"/>
   </class>
   
-  <class name="edm::AssociationMap<edm::OneToManyWithQualityGeneric
+  <class name="edm::AssociationMap<edm::OneToManyWithQualityGeneric<
                std::vector<io_v1::CaloParticle>, std::vector<reco::io_v1::PFCluster>, std::pair<float,float>, unsigned int,
                edm::RefProd<std::vector<io_v1::CaloParticle>>, edm::RefProd<std::vector<reco::io_v1::PFCluster>>,
                edm::Ref<std::vector<io_v1::CaloParticle>>, edm::Ref<std::vector<reco::io_v1::PFCluster>>
-			  >>" >
-		<field name="transientMap_" transient="true"/>
+			   >>" >
+		 <field name="transientMap_" transient="true"/>
   </class>
 
-  <class name="edm::AssociationMap<edm::OneToManyWithQualityGeneric
+  <class name="edm::AssociationMap<edm::OneToManyWithQualityGeneric<
                std::vector<reco::io_v1::PFCluster>, std::vector<io_v1::CaloParticle>, float, unsigned int,
                edm::RefProd<std::vector<reco::io_v1::PFCluster>>, edm::RefProd<std::vector<io_v1::CaloParticle>>,
                edm::Ref<std::vector<reco::io_v1::PFCluster>>, edm::Ref<std::vector<io_v1::CaloParticle>>
-			  >>" >
-		<field name="transientMap_" transient="true"/>
+			   >>" >
+		 <field name="transientMap_" transient="true"/>
   </class>
-
+		
   <class name="edm::Wrapper<edm::AssociationMap<edm::OneToManyWithQualityGeneric<edm::View<reco::Track>,vector<io_v1::TrackingParticle>,double,unsigned int,edm::RefToBaseProd<reco::Track>,edm::RefProd<vector<io_v1::TrackingParticle> >,edm::RefToBase<reco::Track>,edm::Ref<vector<io_v1::TrackingParticle>,io_v1::TrackingParticle,edm::refhelper::FindUsingAdvance<vector<io_v1::TrackingParticle>,io_v1::TrackingParticle> > > > >" />
   <class name="edm::Wrapper<edm::AssociationMap<edm::OneToManyWithQualityGeneric<vector<io_v1::TrackingParticle>,edm::View<reco::Track>,double,unsigned int,edm::RefProd<vector<io_v1::TrackingParticle> >,edm::RefToBaseProd<reco::Track>,edm::Ref<vector<io_v1::TrackingParticle>,io_v1::TrackingParticle,edm::refhelper::FindUsingAdvance<vector<io_v1::TrackingParticle>,io_v1::TrackingParticle> >,edm::RefToBase<reco::Track> > > >" />
 
@@ -316,7 +316,7 @@
 
   <class name="std::map<edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > >, edm::Ptr<io_v1::TrackingParticle>, std::less<edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > > >, std::allocator<std::pair<const edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > >, edm::Ptr<io_v1::TrackingParticle> > > >" />
 
-  <class name="std::map<edm::Ptr<io_v1::TrackingParticle>, std::vector<edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > >, std::allocator<edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > > > >, std::less<edm::Ptr<io_v1::TrackingParticle> >, std::allocator<std::pair<const edm::Ptr<io_v1::TrackingParticle>, std::vector<edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > > > >" />
+  <class name="std::map<edm::Ptr<io_v1::TrackingParticle>, std::vector<edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > >, std::allocator<edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > > > >, std::less<edm::Ptr<io_v1::TrackingParticle> >, std::allocator<std::pair<const edm::Ptr<io_v1::TrackingParticle>, std::vector<edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > >, std::allocator<edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > > > > > > >" />
 
   <class name="TTClusterAssociationMap<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > >" />
 
@@ -340,9 +340,9 @@
   
   <class name="std::pair<const edm::Ptr<io_v1::TrackingParticle>, std::vector<edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > >, std::allocator<edm::Ptr<TTTrack<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>, Phase2TrackerDigi, edm::refhelper::FindForDetSetVector<Phase2TrackerDigi> > > > > > >" />
 
+
   <!-- added by Claude: cms_pepr migration from pepr_15_1_0 -->
-  <!-- All template arguments for SimCluster/CaloParticle were namespaced with io_v1:: to match
-       pre1's refactor. HGCRecHit, reco::CaloCluster, PFTruthParticle remain unqualified. -->
+  <!-- All template arguments for SimCluster/CaloParticle were namespaced with io_v1 to match pre1 refactor. HGCRecHit, recoCaloCluster, PFTruthParticle remain unqualified. -->
 
   <!-- SimCluster and CaloParticle Associations -->
   <class name="edm::Association<std::vector<io_v1::SimCluster> >"/>
