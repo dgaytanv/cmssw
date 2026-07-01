@@ -14,6 +14,8 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "FWCore/ParameterSet/interface/ConfigurationDescriptions.h"
+#include "FWCore/ParameterSet/interface/ParameterSetDescription.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "FWCore/AbstractServices/interface/RandomNumberGenerator.h"
 
@@ -42,6 +44,11 @@ namespace edm {
     FlatEtaRangeGunProducer(const ParameterSet&);
     ~FlatEtaRangeGunProducer() override = default;
 
+    // added by Claude: cms_pepr migration from pepr_15_1_0
+    // Required in pre1: framework validates params against fillDescriptions.
+    static void fillDescriptions(ConfigurationDescriptions& descriptions);
+    // end added by Claude
+
   private:
     void produce(Event&, const EventSetup&) override;
 
@@ -69,6 +76,25 @@ namespace edm {
         randomShoot_(params.getParameter<ParameterSet>("PGunParameters").getParameter<bool>("randomShoot")),
         minDr_(params.getParameter<ParameterSet>("PGunParameters").getUntrackedParameter<double>("minDr", -1.)),
         debug_(params.getUntrackedParameter<bool>("debug")) {}
+
+  // added by Claude: cms_pepr migration from pepr_15_1_0
+  // Extends FlatRandomEGunProducer's descriptions with the pepr-added params
+  // (nParticles, exactShoot, randomShoot, minDr, debug). Without this, pre1
+  // rejects those params as "illegal" during EventProcessor construction.
+  void FlatEtaRangeGunProducer::fillDescriptions(ConfigurationDescriptions& descriptions) {
+    ParameterSetDescription desc;
+    ParameterSetDescription pgunParams;
+    pgunParams.add<double>("MinE");
+    pgunParams.add<double>("MaxE");
+    pgunParams.add<int>("nParticles");
+    pgunParams.add<bool>("exactShoot");
+    pgunParams.add<bool>("randomShoot");
+    pgunParams.addUntracked<double>("minDr", -1.);
+    BaseFlatGunProducer::fillDescription(desc, pgunParams);
+    desc.addUntracked<bool>("debug", false);
+    descriptions.addDefault(desc);
+  }
+  // end added by Claude
 
   void FlatEtaRangeGunProducer::produce(Event& event, const EventSetup& setup) {
     edm::Service<edm::RandomNumberGenerator> rng;
