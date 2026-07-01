@@ -3,7 +3,7 @@ from PhysicsTools.NanoAOD.common_cff import CandVars,Var
 from DPGAnalysis.HGCalNanoAOD.hgcRecHits_cff import hgcRecHitsTable
 
 ticlTable = cms.EDProducer("SimpleCandidateFlatTableProducer",
-    src = cms.InputTag("ticlTrackstersMerge"),
+    src = cms.InputTag("ticlCandidate"),
     cut = cms.string(""), 
     name = cms.string("TICLCand"),
     doc  = cms.string("TICL Candidates"),
@@ -18,7 +18,7 @@ ticlTable = cms.EDProducer("SimpleCandidateFlatTableProducer",
 
 hgcRecHitsToTiclCands = cms.EDProducer("RecHitToTICLCandidateAssociationProducer",
     caloRecHits = hgcRecHitsTable.src,
-    layerClusters = cms.InputTag("hgcalLayerClusters"),
+    layerClusters = cms.InputTag("hgcalMergeLayerClusters"),
     ticlCandidates = ticlTable.src,
 )
 
