@@ -6,6 +6,8 @@ boundaryMom = 'g4Tracks().at(0).getMomentumAtBoundary()'
 
 simClusterTable = cms.EDProducer("SimpleSimClusterFlatTableProducer",
     src = cms.InputTag("mix:MergedCaloTruth"),
+    skipNonExistingSrc = cms.bool(False),
+    lazyEval = cms.untracked.bool(False),
     cut = cms.string(""),
     name = cms.string("SimCluster"),
     doc  = cms.string("SimCluster information"),

@@ -3,6 +3,8 @@ from PhysicsTools.NanoAOD.common_cff import CandVars,Var
 
 caloParticleTable = cms.EDProducer("SimpleCaloParticleFlatTableProducer",
     src = cms.InputTag("mix:MergedCaloTruth"),
+    skipNonExistingSrc = cms.bool(False),
+    lazyEval = cms.untracked.bool(False),
     cut = cms.string(""), 
     name = cms.string("CaloPart"),
     doc  = cms.string("CaloPart"),
